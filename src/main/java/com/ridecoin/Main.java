@@ -13,6 +13,12 @@ public class Main {
     	BitcoinClient client;
 		try {
 			client = new BitcoinClient();
+			
+	    	try {
+	    		// Zach's CoinBase address.
+	    		Address addr = new Address(client.params, "1F1tJhyD8at5GzAc9zV4mBNkisraSnWcVa");
+				client.kit.wallet().addWatchedAddress(addr);
+			} catch (AddressFormatException e) { e.printStackTrace(); }
 	    	
 	        // We want to know when we receive money.
 	        client.kit.wallet().addEventListener(new AbstractWalletEventListener() {

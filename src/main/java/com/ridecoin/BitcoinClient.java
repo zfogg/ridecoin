@@ -2,7 +2,11 @@ package com.ridecoin;
 
 import java.io.File;
 import java.io.IOException;
+
+import com.google.bitcoin.core.Address;
+import com.google.bitcoin.core.AddressFormatException;
 import com.google.bitcoin.core.NetworkParameters;
+import com.google.bitcoin.core.Wallet;
 import com.google.bitcoin.kits.WalletAppKit;
 import com.google.bitcoin.params.MainNetParams;
 import com.google.bitcoin.store.BlockStoreException;
@@ -11,8 +15,10 @@ import com.google.bitcoin.store.BlockStoreException;
 public class BitcoinClient {
 	public WalletAppKit kit;
 	
+	NetworkParameters params;
+	
     public BitcoinClient() throws BlockStoreException, IOException {
-    	NetworkParameters params = MainNetParams.get();
+    	params = MainNetParams.get();
     	
     	kit = new WalletAppKit(params, new File("."), "ridecoin");
     	
@@ -20,7 +26,8 @@ public class BitcoinClient {
     	
     	System.out.println("WALLET :: Starting! Wait for it . . .");
     	kit.startAndWait();
+
     	
-    	System.out.println("WALLET :: Done! My address is " + kit.wallet().getChangeAddress().toString());
+    	System.out.println("WALLET :: Done! My address is " + kit.wallet().toString());
     }
 }
