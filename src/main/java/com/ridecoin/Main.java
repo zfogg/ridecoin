@@ -9,14 +9,17 @@ import java.io.IOException;
 import java.math.BigInteger;
 
 public class Main {	
+	
+	static final String QUEUE = "1G1ngSTGPfKG7HrNPPfUie4Lofv9UPajuQ";
+	
     public static void main(String[] args ) {
     	BitcoinClient client;
 		try {
 			client = new BitcoinClient();
 			
 	    	try {
-	    		// Zach's CoinBase address.
-	    		Address addr = new Address(client.params, "1F1tJhyD8at5GzAc9zV4mBNkisraSnWcVa");
+	    		// Listen to the RideCoin queue address for transactions.
+	    		Address addr = new Address(client.params, QUEUE);
 				client.kit.wallet().addWatchedAddress(addr);
 			} catch (AddressFormatException e) { e.printStackTrace(); }
 	    	
@@ -31,13 +34,15 @@ public class Main {
 	                System.out.println("Received tx for " + value.toString() + ": " + tx);
 	                System.out.println("Transaction will be forwarded after it confirms.");
 	                
+	                System.out.println(tx.getOutputs().toString());
+	                
 	                // Wait until it's made it into the block chain (may run immediately if it's already there).
 	                Futures.addCallback(tx.getConfidence().getDepthFuture(1), new FutureCallback<Transaction>() {
 						public void onFailure(Throwable arg0) {
-							System.out.println("Something went horribly wrong :(");
+							System.out.println("Transaction failed; something went horribly wrong :(");
 						}
 						public void onSuccess(Transaction arg0) {
-							System.out.println("Made it to the block chain :)");
+							System.out.println("Transaction confirmed!");
 						}
 	                });
 	            }

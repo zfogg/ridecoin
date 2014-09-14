@@ -22,12 +22,13 @@ public class BitcoinClient {
     	
     	kit = new WalletAppKit(params, new File("."), "ridecoin");
     	
+    	kit.setUserAgent("RideCoin", "0.0.1-BETA");
+    	
     	kit.setAutoSave(true);
     	
     	System.out.println("WALLET :: Starting! Wait for it . . .");
     	kit.startAndWait();
-
     	
-    	System.out.println("WALLET :: Done! My address is " + kit.wallet().toString());
+    	System.out.println("WALLET :: Done! My wallet looks like: " + kit.wallet().toString());
     }
 }
